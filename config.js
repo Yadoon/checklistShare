@@ -10,7 +10,7 @@ const providerNameSpase = process.env.namespace || testNameSpase;
 // 名称空间下的Group
 const group = 'DEFAULT_GROUP';
 // 命名空间下的Data Id
-const dataId = 'YOKA-QA-REPORT-SHARED-EDITOR.yml';
+const dataId = 'YOKA-QA-CHECKLIST-SHARED-EDITOR.yml';
 
 // 创建 Nacos 配置客户端实例
 const configClient = new NacosConfigClient({
