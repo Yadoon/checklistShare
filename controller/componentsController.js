@@ -55,7 +55,9 @@ const getOrCreateDoc = async (req, res) => {
             const client = new HttpClient(baseUrl);
             // 调用client.get，传入路径、查询参数和headers（包含Cookie）
             mysqlTaskset = await client.get('/server/taskset_verbose', {id: taskset_id}, req.headers.cookie)
-            validFlag = mysqlTaskset.cd === 0 && mysqlTaskset.data && mysqlTaskset.data[0].id === taskset_id;
+            if (mysqlTaskset && mysqlTaskset.cd === 0 && mysqlTaskset.data && Array.isArray(mysqlTaskset.data) && mysqlTaskset.data.length > 0) {
+                validFlag = mysqlTaskset.data[0].id === taskset_id;
+            }
         }
         console.log("validFlag:", validFlag);
         doc.fetch((err, snapshot) => {
