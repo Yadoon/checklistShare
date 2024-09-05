@@ -22,7 +22,9 @@ async function startServer() {
     app.use(express.static('node_modules/quill/dist'));
     var server = http.createServer(app);
     // Connect any incoming WebSocket connection to ShareDB
-    var wss = new WebSocket.Server({port: 3000});
+    const appConfig = await getConfig();
+    const wsPort = appConfig?.port?.['ws'] || 3000; // 确保这里有一个默认值
+    var wss = new WebSocket.Server({port: wsPort});
     // 获取第一个文档
     const doc1 = connection.get('collection1', 'docId1');
 
@@ -110,9 +112,10 @@ async function startServer() {
             console.error('WebSocket error:', error);
         })
     });
-    // // 启动服务器
-    server.listen(8080, () => {
-        console.log('HTTP Server listening on http://localhost:8080');
+    //  启动服务器
+    const httpPort = appConfig?.port?.['http'] || 8080; // 确保这里有一个默认值
+    server.listen(httpPort, () => {
+        console.log('HTTP Server listening on http://localhost:'+ httpPort.toString());
     });
 }
 

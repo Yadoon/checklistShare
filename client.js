@@ -72,17 +72,17 @@ function createOrEditDocument() {
     // 假设你有一个生成 UUID 的函数
     const doc_id = "version" // 使用 UUID 作为 docId
     // 实际id: 如果查询接口报告没有绑定的id,前端生成一个id,否则使用绑定的id
-    //const collection = 'report' + Date.now(); // 假定的集合名称
+    //const collection = 'checklist' + Date.now(); // 假定的集合名称
     // 固定id用于测试
     const taskset_id = 7
-    let collection = 'report' + taskset_id.toString()
+    let collection = 'taskset' + taskset_id.toString()
     // 发送请求到服务器以创建或获取文档
     fetch('api/get-or-create-doc', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({reportId: taskset_id, docId: doc_id})
+        body: JSON.stringify({taskset_id:taskset_id, doc_id:doc_id})
     })
         .then(response => response.json())
         .then(data => {

@@ -21,7 +21,12 @@ async function createSharedDB() {
                 'mongodb-url': 'mongodb://10.225.137.189:27018'
             },
             api: {
-                'checklist-backend': 'http://report.test.com'
+                'checklist-backend': 'http://checklist.test.com',
+                'account-center': 'http://account.test.com'
+            },
+            port: {
+                http: 8080,
+                ws: 3000
             }
         };
         console.warn('使用默认配置：', defaultConfig);
