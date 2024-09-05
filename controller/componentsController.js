@@ -16,7 +16,7 @@ const getOrCreateDoc = async (req, res) => {
     try {
         const ins = await getShareDb();
         const connection = ins.connect()
-        const {taskset_id, docId: doc_id} = req.body;
+        const {taskset_id, doc_id} = req.body;
         // 检查请求头中是否存在cookie
         console.log("cookie:", req.headers.cookie);
         console.log("body:");
@@ -43,7 +43,7 @@ const getOrCreateDoc = async (req, res) => {
 
         let collection = `taskset${taskset_id}`
         console.log("collection:", collection);
-        console.log("docId:", doc_id);
+        console.log("doc_id:", doc_id);
         // 安全地获取文档
         const doc = connection.get(collection, doc_id);
         // taskset_id > 0 表任务在mysql存在.查询mysql中的数据
@@ -55,19 +55,19 @@ const getOrCreateDoc = async (req, res) => {
             const client = new HttpClient(baseUrl);
             // 调用client.get，传入路径、查询参数和headers（包含Cookie）
             mysqlTaskset = await client.get('/server/taskset_verbose', {id: taskset_id}, req.headers.cookie)
-            validFlag = mysqlTaskset.cd === 0 && mysqlTaskset.data && mysqlTaskset.data.id === taskset_id;
+            validFlag = mysqlTaskset.cd === 0 && mysqlTaskset.data && mysqlTaskset.data[0].id === taskset_id;
         }
         console.log("validFlag:", validFlag);
         doc.fetch((err, snapshot) => {
             if (err) {
                 //  拉取sharedb失败时返回元数据
-                if (reportId > 0 && mysqlTaskset.cd === 0 && mysqlTaskset.data.id === reportId) {
+                if (taskset_id > 0 && validFlag) {
                     return res.status(200).json(mysqlTaskset);
                 } else {
                     return res.status(500).json({
                         cd: 1,
                         msg: 'Failed to fetch document',
-                        data: {collection, docId: doc_id}
+                        data: {collection, doc_id}
                     });
                 }
             }
@@ -86,7 +86,7 @@ const getOrCreateDoc = async (req, res) => {
                     console.log(json({
                         cd: 0,
                         msg: 'Document created',
-                        data: {collection, docId: doc_id}
+                        data: {collection, doc_id}
                     }));
                 });
                 if (validFlag) {
@@ -95,7 +95,7 @@ const getOrCreateDoc = async (req, res) => {
                     return res.status(200).json({
                         cd: 0,
                         msg: 'Document created',
-                        data: {collection, docId: doc_id}
+                        data: {collection, doc_id}
                     });
                 }
             } else {
@@ -107,7 +107,7 @@ const getOrCreateDoc = async (req, res) => {
                 return res.status(200).json({
                     cd: 0,
                     msg: 'Document exists',
-                    data: {collection, docId: doc_id}
+                    data: {collection, doc_id}
                 });
             }
         });

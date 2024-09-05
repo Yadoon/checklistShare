@@ -77,7 +77,7 @@ function createOrEditDocument() {
     const taskset_id = 7
     let collection = 'taskset' + taskset_id.toString()
     // 发送请求到服务器以创建或获取文档
-    fetch('api/get-or-create-doc', {
+    fetch('api/edit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {getOrCreateDoc} = require('../controller/componentsController');
 
-router.post('/get-or-create-doc', async (req, res) => {
+router.post('/edit', async (req, res) => {
     try {
         await getOrCreateDoc(req, res);
     } catch (error) {
