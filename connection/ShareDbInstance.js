@@ -10,7 +10,7 @@ async function createSharedDB() {
     try {
         const appConfig = await getConfig();
         console.log('配置已加载到全局变量：', appConfig);
-        const mongoUrl = appConfig?.db?.['mongodb-url'] || 'mongodb://10.225.137.189:27018'; // 确保这里有一个默认值
+        let mongoUrl = appConfig?.db?.['mongodb-url'] || 'mongodb://10.225.137.189:27018/checklist'; // 确保这里有一个默认值
         const db = Mongo(mongoUrl, {db: 'atlas-mongo', collection: 'ops'});
         ShareDB.types.register(richText.type);
         return new ShareDB({db});
@@ -18,7 +18,7 @@ async function createSharedDB() {
         console.error('获取配置出错：', error);
         const defaultConfig = {
             db: {
-                'mongodb-url': 'mongodb://10.225.137.189:27018'
+                'mongodb-url': 'mongodb://10.225.137.189:27018/checklist'
             },
             api: {
                 'checklist-backend': 'http://checklist.test.com',
