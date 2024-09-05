@@ -44,6 +44,7 @@ steps:
       sonar_host: http://sonar.qa.com
       sonar_token: 0e7994291dc34386af77f319d1e98581ca069e16
 
+
 volumes:
   - name: dockersock
     host:
