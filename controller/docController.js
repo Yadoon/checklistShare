@@ -60,7 +60,7 @@ const batchSubscribe = async (req, res) => {
         if (!doc_ids) {
             // 如果没有doc_id，直接返回错误
             return res.status(200).json({
-                code: 1,
+                cd: 1,
                 msg: 'Missing required parameter doc_ids',
                 data: {}
             });
@@ -69,7 +69,7 @@ const batchSubscribe = async (req, res) => {
         if (!taskset_id) {
             // 如果没有taskset_id
             return res.status(200).json({
-                code: 1,
+                cd: 1,
                 msg: 'Missing required parameters taskset_id ',
                 data: {}
             });
@@ -129,7 +129,7 @@ const batchSubscribe = async (req, res) => {
 
         // 所有异步操作完成后返回响应
         return res.status(200).json({
-            code: 0,
+            cd: 0,
             msg: 'Subscription completed',
             data: subscribeResults
         });
@@ -137,7 +137,7 @@ const batchSubscribe = async (req, res) => {
     } catch (e) {
         console.error(e);
         return res.status(500).json({
-            code: 1,
+            cd: 1,
             msg: 'An error occurred',
             data: {}
         });

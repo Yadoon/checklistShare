@@ -25,7 +25,7 @@ const getOrCreateDoc = async (req, res) => {
         if (!doc_id) {
             // 如果没有doc_id，直接返回错误
             return res.status(200).json({
-                code: 1,
+                cd: 1,
                 msg: 'Missing required parameter doc_id',
                 data: {}
             });
@@ -34,7 +34,7 @@ const getOrCreateDoc = async (req, res) => {
         if (!taskset_id) {
             // 如果没有taskset_id
             return res.status(200).json({
-                code: 1,
+                cd: 1,
                 msg: 'Missing required parameters taskset_id ',
                 data: {}
             });
