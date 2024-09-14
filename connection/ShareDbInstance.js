@@ -1,6 +1,6 @@
 const ShareDB = require('sharedb');
 const Mongo = require('sharedb-mongo');
-const richText = require("rich-text");
+const json1 = require("ot-json1");
 const {getConfig} = require('../config');
 
 let dbInstance = null;
@@ -12,7 +12,7 @@ async function createSharedDB() {
         console.log('配置已加载到全局变量：', appConfig);
         let mongoUrl = appConfig?.db?.['mongodb-url'] || 'mongodb://10.225.137.189:27018/checklist'; // 确保这里有一个默认值
         const db = Mongo(mongoUrl, {db: 'atlas-mongo', collection: 'ops'});
-        ShareDB.types.register(richText.type);
+        ShareDB.types.register(json1.type);
         return new ShareDB({db});
     } catch (error) {
         console.error('获取配置出错：', error);
@@ -32,7 +32,7 @@ async function createSharedDB() {
         console.warn('使用默认配置：', defaultConfig);
         const mongoUrl = defaultConfig.db['mongodb-url'];
         const db = Mongo(mongoUrl, {db: 'atlas-mongo', collection: 'ops'});
-        ShareDB.types.register(richText.type);
+        ShareDB.types.register(json1.type);
         return new ShareDB({db});
     }
 }
