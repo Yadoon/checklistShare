@@ -18,7 +18,7 @@ api/edit
 
 ws服务
 http://localhost:3000/
-监听editor和的change事件，将数据同步到sharedb
+监听editor和的change事件，将json1类型数据同步到sharedb
 
 ### demo
 
