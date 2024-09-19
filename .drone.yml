@@ -51,9 +51,9 @@ steps:
       event:
         - tag
     commands:
-      - docker build -t $PLUGIN_REPO:$PLUGIN_TAGS .
+      - docker build -t $PLUGIN_REPO:$DRONE_TAG .
       - docker login harbor.qa.com -u $PLUGIN_USERNAME -p $PLUGIN_PASSWORD
-      - docker push $PLUGIN_REPO:$PLUGIN_TAGS
+      - docker push $PLUGIN_REPO:$DRONE_TAG
     volumes:
       - name: dockersock
         path: /var/run/docker.sock
