@@ -45,6 +45,30 @@ steps:
       sonar_token: 0e7994291dc34386af77f319d1e98581ca069e16
 
 
+  - name: tag-docker
+    image: harbor.qa.com/common/centos_go:1.0
+    when:
+      event:
+        - tag
+    commands:
+      - docker build -t $PLUGIN_REPO:$PLUGIN_TAGS .
+      - docker login harbor.qa.com -u $PLUGIN_USERNAME -p $PLUGIN_PASSWORD
+      - docker push $PLUGIN_REPO:$PLUGIN_TAGS
+    volumes:
+      - name: dockersock
+        path: /var/run/docker.sock
+      - name: docker
+        path: /usr/bin/docker
+    settings:
+      registry: http://harbor.qa.com
+      repo: harbor.qa.com/yokaqa/checklist-sharedb
+      username:
+        from_secret: harbor_username
+      password:
+        from_secret: harbor_passwd
+      insecure: true
+
+
 volumes:
   - name: dockersock
     host:
