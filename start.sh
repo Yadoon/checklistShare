@@ -13,7 +13,8 @@ case $branch in
   echo "export namespace=f4387f55-c164-4b0e-9ac0-dd280bb5d93c" >> /etc/environment
   ;;
 "master")
-  echo "export namespace=9ec3c435-aa26-45d2-b51a-602e094c2b37" >> /etc/environment
+  export namespace=9ec3c435-aa26-45d2-b51a-602e094c2b37
   ;;
 esac
 
+node server.js

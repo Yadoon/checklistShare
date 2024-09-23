@@ -6,4 +6,4 @@ RUN npm install --registry=https://registry.npmmirror.com \
      && chmod +x ./start.sh
 ARG DRONE_SOURCE_BRANCH=dev
 ENV DRONE_SOURCE_BRANCH ${DRONE_SOURCE_BRANCH}
-CMD /home/yoka/start.sh && node server.js
+CMD /home/yoka/start.sh
