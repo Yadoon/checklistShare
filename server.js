@@ -120,6 +120,7 @@ async function startServer() {
         res = await client.get('/server/taskset_verbose/sync', {taskset_id: taskset_id})
         console.log(res);
       }
+      clientsMap.delete(ws);
       clients.delete(ws);
     });
 
