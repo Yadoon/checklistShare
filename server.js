@@ -7,7 +7,9 @@ var json1 = require('ot-json1');
 const getShareDb = require("./connection/ShareDbInstance");
 const componentsRouter = require("./routes/components");
 const {getConfig} = require("./config");
+const HttpClient = require("./service/httpClient");
 const clients = new Set(); // 存储所有客户端
+const clientsMap = new Map(); // 存储所有客户端
 startServer().then(r => null);
 
 
@@ -71,12 +73,53 @@ async function startServer() {
     ins.listen(stream);
     // 添加新连接到客户端列表
     clients.add(ws);
-
+    // 错误处理
+    ws.on('message', (data) => {
+      console.log('current_client_map:');
+      clientsMap.forEach((value, key) => {
+        console.log(`Key: key, Value: ${JSON.stringify(value)}`);
+      });
+      // 假设data是一个Buffer，且包含的是utf8编码的JSON字符串
+      let jsonString;
+      try {
+        // 尝试将Buffer转换为utf8编码的字符串
+        jsonString = data.toString('utf8');
+        // 尝试将字符串解析为JSON对象
+        let jsonObject = JSON.parse(jsonString);
+        console.log('Received JSON object:', jsonObject);
+        if (jsonObject.c) {
+          const collection_id = jsonObject.c;
+          if (collection_id.match(/taskset\d+/)) {
+            let bindInfo = {
+              taskset_id: collection_id.split('taskset')[1],
+            }
+            clientsMap.set(ws, bindInfo);
+          }
+        }
+        // 在这里处理JSON对象
+      } catch (error) {
+        // 如果转换或解析过程中发生错误，则捕获并处理错误
+        console.error('Error processing WebSocket message:', error);
+      }
+      // 你可以在这里处理消息，或者转发给其他监听器
+    });
     // 当有新连接时，向所有已连接的客户端发送通知帮
     broadcast('newUserConnected');
-
     // 监听关闭事件，从客户端列表中移除
-    ws.on('close', function () {
+    ws.on('close', async function () {
+      broadcast('userDisconnected');
+      const taskset_id = Number(clientsMap.get(ws)?.taskset_id);
+      console.log('taskset_id', taskset_id);
+      let res;
+      if (taskset_id) {
+        const appConfig = await getConfig();
+        const baseUrl = appConfig?.api?.['checklist-backend'] || 'http://checklist.test.com'
+        const client = new HttpClient(baseUrl);
+        console.log('start syncing...');
+        // 调用client.get，传入路径、查询参数和headers（包含Cookie）
+        res = await client.get('/server/taskset_verbose/sync', {taskset_id: taskset_id})
+        console.log(res);
+      }
       clients.delete(ws);
     });
 
