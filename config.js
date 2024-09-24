@@ -6,6 +6,7 @@ global.nacosConfig = {};
 const nacosServerAddress = 'nacos.qa.com:80';
 // namespace: 名称空间必须在服务器上存在
 const testNameSpase = "1748cc96-8f84-446d-9d75-6506781282d5";
+console.log('process.env.namespace：', process.env.namespace);
 const providerNameSpase = process.env.namespace || testNameSpase;
 // 名称空间下的Group
 const group = 'DEFAULT_GROUP';
