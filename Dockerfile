@@ -4,6 +4,6 @@ WORKDIR /home/yoka
 ADD . .
 RUN npm install --registry=https://registry.npmmirror.com \
      && chmod +x ./start.sh
-ARG DRONE_SOURCE_BRANCH=dev
-ENV DRONE_SOURCE_BRANCH ${DRONE_SOURCE_BRANCH}
-CMD /home/yoka/start.sh
+ARG namespace=dev
+ENV namespace ${namespace}
+CMD node server.js
