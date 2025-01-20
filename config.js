@@ -3,7 +3,7 @@ const NacosConfigClient = require('nacos').NacosConfigClient;
 // 创建一个全局变量来存储配置
 global.nacosConfig = {};
 // nacos服务地址
-const nacosServerAddress = 'nacos.qa.com:80';
+const nacosServerAddress = 'nacos.qa.dobest.com:443';
 // namespace: 名称空间必须在服务器上存在
 const testNameSpase = "1748cc96-8f84-446d-9d75-6506781282d5";
 console.log('process.env.namespace：', process.env.namespace);
@@ -17,6 +17,7 @@ const dataId = 'YOKA-QA-CHECKLIST-SHARED-EDITOR.yml';
 const configClient = new NacosConfigClient({
     serverAddr: nacosServerAddress,
     namespace: providerNameSpase,
+    ssl: true,
 });
 
 const fetchAndApplyConfig = async () => {
