@@ -9,14 +9,14 @@ trigger:
 
 steps:
   - name: dev-docker
-    image: harbor.qa.com/common/centos_go:1.0
+    image: harbor.qa.dobest.com/common/centos_go:1.0
     when:
       branch: dev
       event:
         - push
     commands:
       - docker build -t $PLUGIN_REPO:$PLUGIN_TAGS .
-      - docker login harbor.qa.com -u $PLUGIN_USERNAME -p $PLUGIN_PASSWORD
+      - docker login harbor.qa.dobest.com -u $PLUGIN_USERNAME -p $PLUGIN_PASSWORD
       - docker push $PLUGIN_REPO:$PLUGIN_TAGS
     volumes:
       - name: dockersock
@@ -24,8 +24,8 @@ steps:
       - name: docker
         path: /usr/bin/docker
     settings:
-      registry: http://harbor.qa.com
-      repo: harbor.qa.com/yokaqa/checklist-sharedb
+      registry: https://harbor.qa.dobest.com
+      repo: harbor.qa.dobest.com/yokaqa/checklist-sharedb
       tags:
         - ${DRONE_TAG=TEST-LATEST}
       username:
@@ -35,24 +35,24 @@ steps:
       insecure: true
 
   - name: code-analysis
-    image: harbor.qa.com/common/drone-sonar-plugin:240715
+    image: harbor.qa.dobest.com/common/drone-sonar-plugin:240715
     when:
       branch: dev
       event:
         - push
     settings:
-      sonar_host: http://sonar.qa.com
+      sonar_host: https://sonar.qa.com
       sonar_token: 0e7994291dc34386af77f319d1e98581ca069e16
 
 
   - name: tag-docker
-    image: harbor.qa.com/common/centos_go:1.0
+    image: harbor.qa.dobest.com/common/centos_go:1.0
     when:
       event:
         - tag
     commands:
       - docker build -t $PLUGIN_REPO:$DRONE_TAG --build-arg namespace=9ec3c435-aa26-45d2-b51a-602e094c2b37 .
-      - docker login harbor.qa.com -u $PLUGIN_USERNAME -p $PLUGIN_PASSWORD
+      - docker login harbor.qa.dobest.com -u $PLUGIN_USERNAME -p $PLUGIN_PASSWORD
       - docker push $PLUGIN_REPO:$DRONE_TAG
     volumes:
       - name: dockersock
@@ -60,8 +60,8 @@ steps:
       - name: docker
         path: /usr/bin/docker
     settings:
-      registry: http://harbor.qa.com
-      repo: harbor.qa.com/yokaqa/checklist-sharedb
+      registry: https://harbor.qa.dobest.com
+      repo: harbor.qa.dobest.com/yokaqa/checklist-sharedb
       username:
         from_secret: harbor_username
       password:
