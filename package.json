@@ -27,7 +27,8 @@
     "rich-text": "^4.1.0",
     "sharedb": "^3.3.0",
     "sharedb-mongo": "5.0.0",
-    "ws": "^8.12.1"
+    "ws": "^8.12.1",
+    "mongodb": "6.14.2"
   },
   "devDependencies": {
     "browserify": "^17.0.0"
